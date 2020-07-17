@@ -4,7 +4,7 @@ Resources:
   GraphQL:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: lambda.handler
+      Handler: src/lambda.handler
       Runtime: nodejs12.x
       Events:
         PostRequest:
