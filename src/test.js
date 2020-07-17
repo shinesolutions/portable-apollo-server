@@ -21,9 +21,9 @@ beforeAll(async () => {
   serverInfo = await apolloServer.listen({ port: 0 });
 });
 
-afterAll(() => {
+afterAll(async () => {
   const { server } = serverInfo;
-  return promisify(server.close).bind(server)();
+  await promisify(server.close).bind(server)();
 });
 
 test("test", async () => {
