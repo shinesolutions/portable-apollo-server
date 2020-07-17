@@ -15,6 +15,11 @@ test("helloWorld", async () => {
   expect(data.helloWorld).toEqual("Hello World!");
 });
 
+test("epoch", async () => {
+  const data = await request(serverInfo.url, `{ epoch }`);
+  expect(data.epoch).toEqual("1970-01-01T00:00:00.000Z");
+});
+
 afterAll((done) => {
   serverInfo.server.close(done);
 });
