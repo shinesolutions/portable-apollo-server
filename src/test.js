@@ -13,7 +13,7 @@ let stubby;
 beforeAll(async () => {
   stubby = new Stubby();
 
-  // Start all stubby services on ephemeral ports
+  // Start all stubby services on ephemeral ports to avoid port conflicts
   await promisify(stubby.start).bind(stubby)({
     stubs: 0,
     admin: 0,
@@ -22,15 +22,15 @@ beforeAll(async () => {
       fs.readFileSync(path.join(__dirname, "..", "stubby.yaml"))
     ),
   });
-  const stubsAddress = stubby.stubsPortal.address();
+  const { address: stubAddress, port: stubPort } = stubby.stubsPortal.address();
 
   const apolloServer = new ApolloServer(
-    createConfig({
-      helloWorldUrl: `http://${stubsAddress.address}:${stubsAddress.port}`,
-    })
+    // Parameterize the Apollo config with the details of where the stub is
+    // running
+    createConfig({ helloWorldUrl: `http://${stubAddress}:${stubPort}` })
   );
 
-  // Start server on ephemeral port
+  // Start Apollo Server on ephemeral port to avoid port conflicts
   serverInfo = await apolloServer.listen({ port: 0 });
 });
 
