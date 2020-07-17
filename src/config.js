@@ -1,19 +1,18 @@
 const { GraphQLDateTime } = require("graphql-iso-date");
+const { makeExecutableSchema } = require("apollo-server");
 
 exports.config = {
-  typeDefs: `
-    scalar DateTime
-
-    type Query {
-      helloWorld: String!
-      epoch: DateTime!
-    }
-  `,
-  resolvers: {
-    DateTime: GraphQLDateTime,
-    Query: {
-      helloWorld: () => "Hello World!",
-      epoch: () => new Date(0),
+  schema: makeExecutableSchema({
+    inheritResolversFromInterfaces: true,
+    typeDefs: `
+      type Query {
+        helloWorld: String!
+      }
+    `,
+    resolvers: {
+      Query: {
+        helloWorld: () => "Hello World!",
+      },
     },
-  },
+  }),
 };
