@@ -21,11 +21,12 @@ beforeAll(async () => {
   serverInfo = await apolloServer.listen({ port: 0 });
 });
 
+test("helloWorld", async () => {
+  const data = await request(serverInfo.url, `{ helloWorld }`);
+  expect(data.helloWorld).toEqual("Hello World!");
+});
+
 afterAll(async () => {
   const { server } = serverInfo;
   await promisify(server.close).bind(server)();
-});
-
-test("test", async () => {
-  await request(serverInfo.url, `{ helloWorld }`);
 });
