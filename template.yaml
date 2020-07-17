@@ -7,6 +7,11 @@ Resources:
       Handler: src/lambda.handler
       Runtime: nodejs12.x
       Events:
+        GetRequest:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
         PostRequest:
           Type: Api
           Properties:
