@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  GraphQL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda.handler
+      Runtime: nodejs12.x
+      Events:
+        GetRequest:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: get
+        PostRequest:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: post
+  GraphQLInspector:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda.handler
+      Runtime: nodejs6.10
+      Events:
+        GetRequest:
+          Type: Api
+          Properties:
+            Path: /graphiql
+            Method: get
