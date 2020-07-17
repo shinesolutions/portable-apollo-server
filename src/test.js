@@ -1,7 +1,8 @@
 const { promisify } = require("util");
 const { ApolloServer } = require("apollo-server");
+const { request } = require("graphql-request");
 
-let httpServer;
+let serverInfo;
 
 beforeAll(async () => {
   const apolloServer = new ApolloServer({
@@ -17,13 +18,12 @@ beforeAll(async () => {
     },
   });
 
-  httpServer = (await apolloServer.listen({ port: 0 })).server;
+  serverInfo = await apolloServer.listen({ port: 0 });
 });
 
 afterAll(() => {
-  return promisify(httpServer.close).bind(httpServer)();
+  const { server } = serverInfo;
+  return promisify(server.close).bind(server)();
 });
 
-test("test", () => {
-  expect(1).toBe(1);
-});
+test("test", () => {});
