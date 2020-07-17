@@ -17,7 +17,7 @@ beforeAll(async () => {
       },
     },
   });
-
+  // Start server on ephemeral port
   serverInfo = await apolloServer.listen({ port: 0 });
 });
 
@@ -26,4 +26,6 @@ afterAll(() => {
   return promisify(server.close).bind(server)();
 });
 
-test("test", () => {});
+test("test", async () => {
+  await request(serverInfo.url, `{ helloWorld }`);
+});
