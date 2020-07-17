@@ -22,6 +22,7 @@
   "devDependencies": {
     "graphql-request": "2.1.0-next.1",
     "jest": "^26.1.0",
+    "js-yaml": "^3.14.0",
     "nodemon": "^2.0.4",
     "stubby": "^5.0.0"
   }
