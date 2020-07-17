@@ -1,9 +1,9 @@
 const { RESTDataSource } = require("apollo-datasource-rest");
 
 exports.HelloWorldDataSource = class extends RESTDataSource {
-  constructor() {
+  constructor(baseUrl) {
     super();
-    this.baseURL = "http://localhost:8882";
+    this.baseURL = baseUrl;
   }
 
   async getMessage() {
