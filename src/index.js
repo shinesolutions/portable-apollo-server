@@ -1,16 +1,10 @@
 const { ApolloServer } = require("apollo-server");
+const { typeDefs } = require("./typeDefs");
+const { resolvers } = require("./resolvers");
 
 const server = new ApolloServer({
-  typeDefs: `
-    type Query {
-      helloWorld: String!
-    }
-  `,
-  resolvers: {
-    Query: {
-      helloWorld: () => "Hello World!",
-    },
-  },
+  typeDefs,
+  resolvers,
 });
 
 server.listen().then(() => console.log("Ready!"));
