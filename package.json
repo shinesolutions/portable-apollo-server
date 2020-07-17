@@ -20,7 +20,6 @@
     "graphql-iso-date": "^3.6.1"
   },
   "devDependencies": {
-    "apollo-server-express": "^2.15.1",
     "graphql-request": "2.1.0-next.1",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
