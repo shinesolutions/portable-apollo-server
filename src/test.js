@@ -1,4 +1,3 @@
-const { promisify } = require("util");
 const { ApolloServer } = require("apollo-server");
 const { request } = require("graphql-request");
 
@@ -26,7 +25,6 @@ test("helloWorld", async () => {
   expect(data.helloWorld).toEqual("Hello World!");
 });
 
-afterAll(async () => {
-  const { server } = serverInfo;
-  await promisify(server.close).bind(server)();
+afterAll((done) => {
+  serverInfo.server.close(done);
 });
