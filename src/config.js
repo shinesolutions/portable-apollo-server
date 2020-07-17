@@ -1,4 +1,5 @@
 const { GraphQLDateTime } = require("graphql-iso-date");
+const { HelloWorldDataSource } = require("./HelloWorldDataSource");
 
 exports.config = {
   typeDefs: `
@@ -12,8 +13,12 @@ exports.config = {
   resolvers: {
     DateTime: GraphQLDateTime,
     Query: {
-      helloWorld: () => "Hello World!",
+      helloWorld: (source, args, context) =>
+        context.dataSources.helloWorld.getMessage(),
       epoch: () => new Date(0),
     },
   },
+  dataSources: () => ({
+    helloWorld: new HelloWorldDataSource(),
+  }),
 };
