@@ -1,15 +1,11 @@
 const { ApolloServer } = require("apollo-server");
 const { request } = require("graphql-request");
-const { typeDefs } = require("./typeDefs");
-const { resolvers } = require("./resolvers");
+const { config } = require("./config");
 
 let serverInfo;
 
 beforeAll(async () => {
-  const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
+  const apolloServer = new ApolloServer(config);
   // Start server on ephemeral port
   serverInfo = await apolloServer.listen({ port: 0 });
 });
