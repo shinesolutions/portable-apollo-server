@@ -13,3 +13,7 @@
         sam local start-api
 
     and go to http://localhost:3000
+
+7.  To run the tests:
+
+         yarn test
