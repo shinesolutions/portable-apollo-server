@@ -19,7 +19,7 @@ exports.createConfig = function (env, getHeader) {
         helloWorld: async (source, args, context) =>
           `${await context.dataSources.helloWorld.getMessage()}, ${
             context.userName
-          }`,
+          }!`,
         epoch: () => new Date(0),
       },
     },

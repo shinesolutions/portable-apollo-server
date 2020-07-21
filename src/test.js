@@ -1,14 +1,16 @@
 const { ApolloServer } = require("apollo-server");
-const { request } = require("graphql-request");
+const { GraphQLClient } = require("graphql-request");
 const { createConfig } = require("./config");
 const { Stubby } = require("stubby");
 const { promisify } = require("util");
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
+const jwt = require("jwt-simple");
 
 let serverInfo;
 let stubby;
+let graphQlClient;
 
 beforeAll(async () => {
   stubby = new Stubby();
@@ -27,20 +29,32 @@ beforeAll(async () => {
   const apolloServer = new ApolloServer(
     // Parameterize the Apollo config with the details of where the stub is
     // running
-    createConfig({ helloWorldUrl: `http://${stubAddress}:${stubPort}` })
+    createConfig(
+      { helloWorldUrl: `http://${stubAddress}:${stubPort}` },
+      (integrationContext, headerName) =>
+        integrationContext.req.header(headerName)
+    )
   );
 
   // Start Apollo Server on ephemeral port to avoid port conflicts
   serverInfo = await apolloServer.listen({ port: 0 });
+
+  // Set up a client that can contact the GraphQL server. All requests that
+  // the client makes should include an encoded authorization header.
+  graphQlClient = new GraphQLClient(serverInfo.url, {
+    headers: {
+      Authorization: jwt.encode({ name: "Ben" }, "DummySecret"),
+    },
+  });
 });
 
 test("helloWorld", async () => {
-  const data = await request(serverInfo.url, `{ helloWorld }`);
-  expect(data.helloWorld).toEqual("Hello World!");
+  const data = await graphQlClient.request(`{ helloWorld }`);
+  expect(data.helloWorld).toEqual("Hello, Ben!");
 });
 
 test("epoch", async () => {
-  const data = await request(serverInfo.url, `{ epoch }`);
+  const data = await graphQlClient.request(`{ epoch }`);
   expect(data.epoch).toEqual("1970-01-01T00:00:00.000Z");
 });
 
