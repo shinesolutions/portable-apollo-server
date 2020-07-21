@@ -1,4 +1,6 @@
 const { GraphQLDateTime } = require("graphql-iso-date");
+const jwt = require("jsonwebtoken");
+
 const { HelloWorldDataSource } = require("./HelloWorldDataSource");
 
 exports.createConfig = function (env) {
@@ -14,13 +16,23 @@ exports.createConfig = function (env) {
     resolvers: {
       DateTime: GraphQLDateTime,
       Query: {
-        helloWorld: (source, args, context) =>
-          context.dataSources.helloWorld.getMessage(),
+        helloWorld: async (source, args, context) =>
+          `${await context.dataSources.helloWorld.getMessage()}, ${
+            context.userName
+          }`,
         epoch: () => new Date(0),
       },
     },
     dataSources: () => ({
       helloWorld: new HelloWorldDataSource(env.helloWorldUrl),
     }),
+    context: function (integrationContext) {
+      const authHeader = integrationContext.event.headers["Authorization"];
+      const payload = jwt.decode(authHeader);
+
+      return {
+        userName: payload.name,
+      };
+    },
   };
 };
