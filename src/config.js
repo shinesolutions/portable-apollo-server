@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const { HelloWorldDataSource } = require("./HelloWorldDataSource");
 
-exports.createConfig = function (env) {
+exports.createConfig = function (env, getHeader) {
   return {
     typeDefs: `
       scalar DateTime
@@ -27,8 +27,7 @@ exports.createConfig = function (env) {
       helloWorld: new HelloWorldDataSource(env.helloWorldUrl),
     }),
     context: function (integrationContext) {
-      const authHeader = integrationContext.req.header("Authorization");
-      console.log(authHeader);
+      const authHeader = getHeader(integrationContext, "Authorization");
       const payload = jwt.decode(authHeader);
 
       return {
