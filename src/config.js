@@ -27,7 +27,8 @@ exports.createConfig = function (env) {
       helloWorld: new HelloWorldDataSource(env.helloWorldUrl),
     }),
     context: function (integrationContext) {
-      const authHeader = integrationContext.event.headers["Authorization"];
+      const authHeader = integrationContext.req.header("Authorization");
+      console.log(authHeader);
       const payload = jwt.decode(authHeader);
 
       return {
