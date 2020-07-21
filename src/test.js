@@ -27,11 +27,12 @@ beforeAll(async () => {
   const { address: stubAddress, port: stubPort } = stubby.stubsPortal.address();
 
   const apolloServer = new ApolloServer(
-    // Parameterize the Apollo config with the details of where the stub is
-    // running
     createConfig(
+      // Set the Apollo config to use the details of where the stub is running
       { helloWorldUrl: `http://${stubAddress}:${stubPort}` },
       (integrationContext, headerName) =>
+        // Because we're running in Express, extract headers from Express
+        // requests
         integrationContext.req.header(headerName)
     )
   );
