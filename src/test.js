@@ -54,11 +54,6 @@ test("helloWorld", async () => {
   expect(data.helloWorld).toEqual("Hello, Ben!");
 });
 
-test("epoch", async () => {
-  const data = await graphQlClient.request(`{ epoch }`);
-  expect(data.epoch).toEqual("1970-01-01T00:00:00.000Z");
-});
-
 afterAll(async () => {
   await promisify(stubby.stop).bind(stubby)();
   const { server } = serverInfo;
