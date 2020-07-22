@@ -21,6 +21,14 @@ To start the GraphQL server inside a local instance of API Gateway:
 1. Run `sam local start-api`
 2. Go to http://localhost:3000
 
+Note that any queries you send to the GraphQL servers should include an
+`Authorization` header that is an encoded JWT with a field called `name`.
+Here's a sample token:
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
 ## Running the tests
 
 To run the tests:
