@@ -8,7 +8,7 @@ Resources:
       Runtime: nodejs12.x
       Environment:
         Variables:
-          helloWorldUrl: http://host.docker.internal:8882
+          messageServerUrl: http://host.docker.internal:8882
       Events:
         GetRequest:
           Type: Api

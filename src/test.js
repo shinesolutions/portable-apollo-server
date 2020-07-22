@@ -29,7 +29,7 @@ beforeAll(async () => {
   const apolloServer = new ApolloServer(
     createConfig(
       // Set the Apollo config to use the details of where the stub is running
-      { helloWorldUrl: `http://${stubAddress}:${stubPort}` },
+      { messageServerUrl: `http://${stubAddress}:${stubPort}` },
       (integrationContext, headerName) =>
         // Because we're running in Express, extract headers from Express
         // requests
@@ -49,9 +49,9 @@ beforeAll(async () => {
   });
 });
 
-test("helloWorld", async () => {
-  const data = await graphQlClient.request(`{ helloWorld }`);
-  expect(data.helloWorld).toEqual("Hello, Ben!");
+test("greeting", async () => {
+  const data = await graphQlClient.request(`{ greeting }`);
+  expect(data.greeting).toEqual("Hello, Ben!");
 });
 
 afterAll(async () => {

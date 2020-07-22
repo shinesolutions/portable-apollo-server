@@ -1,24 +1,24 @@
 const jwt = require("jsonwebtoken");
 
-const { HelloWorldDataSource } = require("./HelloWorldDataSource");
+const { MessageDataSource } = require("./MessageDataSource");
 
 exports.createConfig = function (env, getHeader) {
   return {
     typeDefs: `
       type Query {
-        helloWorld: String!
+        greeting: String!
       }
     `,
     resolvers: {
       Query: {
-        helloWorld: async (source, args, context) =>
-          `${await context.dataSources.helloWorld.getMessage()}, ${
+        greeting: async (source, args, context) =>
+          `${await context.dataSources.message.getMessage()}, ${
             context.userName
           }!`,
       },
     },
     dataSources: () => ({
-      helloWorld: new HelloWorldDataSource(env.helloWorldUrl),
+      message: new MessageDataSource(env.messageServerUrl),
     }),
     context: function (integrationContext) {
       const authHeader = getHeader(integrationContext, "Authorization");

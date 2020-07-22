@@ -1,5 +1,5 @@
 - request:
-    url: ^/message$
+    url: ^/$
     method: GET
   response:
     - status: 200
